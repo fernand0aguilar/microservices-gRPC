@@ -11,12 +11,20 @@
     "url": "git+https://github.com/fernand0aguilar/microservices-gRPC.git"
   },
   "keywords": [
-    "hash", "test"
+    "hash",
+    "test"
   ],
   "author": "fernand0aguilar",
   "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/fernand0aguilar/microservices-gRPC/issues"
   },
-  "homepage": "https://github.com/fernand0aguilar/microservices-gRPC#readme"
+  "homepage": "https://github.com/fernand0aguilar/microservices-gRPC#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mocha": "^5.2.0",
+    "mongodb": "^3.1.13",
+    "tape": "^4.10.1"
+  }
 }
