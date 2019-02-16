@@ -4,7 +4,9 @@
   "description": "Microservice to list products",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "production": "docker-compose -f docker-compose.yml up -d",
+    "build": "docker-compose -f docker-compose.yml build"
   },
   "repository": {
     "type": "git",
