@@ -1,9 +1,0 @@
-.env
-node_modules/
-data/
-LICENSE
-README.md
-.gitignore
-.git/
-.travis.yml
-docker/
