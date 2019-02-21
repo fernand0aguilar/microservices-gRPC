@@ -27,8 +27,12 @@ func getDiscountConnection(host string) (*grpc.ClientConn, error) {
 }
 
 func findCustomerByID(id int) (pb.Customer, error) {
-	
-	// TODO -> GET USER FROM db
+	c1 := pb.Customer{Id: 1, FirstName: "John", LastName: "Snow"}
+	c2 := pb.Customer{Id: 2, FirstName: "Daenerys", LastName: "Targaryen"}
+	customers := map[int]pb.Customer{
+		1: c1,
+		2: c2,
+	}
 	found, ok := customers[id]
 	if ok {
 		return found, nil
@@ -37,7 +41,9 @@ func findCustomerByID(id int) (pb.Customer, error) {
 }
 
 func getFakeProducts() []*pb.Product {
-	// TODO -> REFACTOR TO GET REAL PRODUCT LIST FROM db
+	p1 := pb.Product{Id: 1, Slug: "iphone-x", Description: "64GB, black and iOS 12", PriceInCents: 99999}
+	p2 := pb.Product{Id: 2, Slug: "notebook-avell-g1511", Description: "Notebook Gamer Intel Core i7", PriceInCents: 150000}
+	p3 := pb.Product{Id: 3, Slug: "playstation-4-slim", Description: "1TB Console", PriceInCents: 32999}
 	return []*pb.Product{&p1, &p2, &p3}
 }
 
