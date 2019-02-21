@@ -2,8 +2,7 @@ import sys, os
 import datetime
 import decimal
 import hashtest_pb2, hashtest_pb2_grpc
-
-
+# b'\x03\xf3\r\n'
 class Hashtest(hashtest_pb2_grpc.DiscountServicer):
     def apply_discount(self, request, content):
         product = request.product
@@ -36,7 +35,6 @@ class Hashtest(hashtest_pb2_grpc.DiscountServicer):
             MAX_DISCOUNT = decimal.Decimal(10) / 100    # 10%
             percentual = 0
             
-
             if today == BLACK_FRIDAY:
                 percentual = decimal.Decimal(10) / 100  # 10%
             elif today == user_aniversary:

@@ -5,7 +5,7 @@ from concurrent import futures
 
 import grpc
 
-import Hashtest
+import hashtest
 import hashtest_pb2_grpc
 
 
@@ -21,7 +21,7 @@ def get_server(host):
 
     server_credentials = grpc.ssl_server_credentials(((private_key, certificate_chain),))
     server.add_secure_port(host,server_credentials)
-    hashtest_pb2_grpc.add_DiscountServicer_to_server(Hashtest(), server)
+    hashtest_pb2_grpc.add_DiscountServicer_to_server(hashtest(), server)
     return server
 
 if __name__ == '__main__':
