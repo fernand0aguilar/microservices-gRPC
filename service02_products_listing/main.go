@@ -26,28 +26,28 @@ func getDiscountConnection(host string) (*grpc.ClientConn, error) {
 	return grpc.Dial(host, grpc.WithTransportCredentials(creds))
 }
 
-func findCustomerByID(id int) (pb.Customer, error) {
-	c1 := pb.Customer{Id: 1, FirstName: "John", LastName: "Snow"}
-	c2 := pb.Customer{Id: 2, FirstName: "Daenerys", LastName: "Targaryen"}
-	customers := map[int]pb.Customer{
+func findUserByID(id int) (pb.User, error) {
+	c1 := pb.User{Id: "1", FirstName: "John", LastName: "Snow"}
+	c2 := pb.User{Id: "2", FirstName: "Daenerys", LastName: "Targaryen"}
+	users := map[int]pb.User{
 		1: c1,
 		2: c2,
 	}
-	found, ok := customers[id]
+	found, ok := users[id]
 	if ok {
 		return found, nil
 	}
-	return found, errors.New("Customer not found.")
+	return found, errors.New("User not found.")
 }
 
 func getFakeProducts() []*pb.Product {
-	p1 := pb.Product{Id: 1, Slug: "iphone-x", Description: "64GB, black and iOS 12", PriceInCents: 99999}
-	p2 := pb.Product{Id: 2, Slug: "notebook-avell-g1511", Description: "Notebook Gamer Intel Core i7", PriceInCents: 150000}
-	p3 := pb.Product{Id: 3, Slug: "playstation-4-slim", Description: "1TB Console", PriceInCents: 32999}
+	p1 := pb.Product{Id: "1", PriceInCents: 99999, Title: "iphone-x", Description: "64GB, black and iOS 12"}
+	p2 := pb.Product{Id: "2", PriceInCents: 150000, Title: "notebook-avell-g1511", Description: "Notebook Gamer Intel Core i7"}
+	p3 := pb.Product{Id: "3", PriceInCents: 32999, Title: "playstation-4-slim", Description: "1TB Console"}
 	return []*pb.Product{&p1, &p2, &p3}
 }
 
-func getProductsWithDiscountApplied(customer pb.Customer, products []*pb.Product) []*pb.Product {
+func getProductsWithDiscountApplied(user pb.User, products []*pb.Product) []*pb.Product {
 	host := os.Getenv("DISCOUNT_SERVICE_HOST")
 	if len(host) == 0 {
 		host = "localhost:11443"
@@ -64,7 +64,7 @@ func getProductsWithDiscountApplied(customer pb.Customer, products []*pb.Product
 
 	productsWithDiscountApplied := make([]*pb.Product, 0)
 	for _, product := range products {
-		r, err := c.ApplyDiscount(ctx, &pb.DiscountRequest{Customer: &customer, Product: product})
+		r, err := c.ApplyDiscount(ctx, &pb.DiscountRequest{User: &user, Product: product})
 		if err == nil {
 			productsWithDiscountApplied = append(productsWithDiscountApplied, r.GetProduct())
 		} else {
@@ -82,24 +82,24 @@ func handleGetProducts(w http.ResponseWriter, req *http.Request) {
 	products := getFakeProducts()
 	w.Header().Set("Content-Type", "application/json")
 
-	customerID := req.Header.Get("X-USER-ID")
-	if customerID == "" {
+	userID := req.Header.Get("X-USER-ID")
+	if userID == "" {
 		json.NewEncoder(w).Encode(products)
 		return
 	}
-	id, err := strconv.Atoi(customerID)
+	id, err := strconv.Atoi(userID)
 	if err != nil {
-		http.Error(w, "Customer ID is not a number.", http.StatusBadRequest)
+		http.Error(w, "User ID is not a number.", http.StatusBadRequest)
 		return
 	}
 
-	customer, err := findCustomerByID(id)
+	user, err := findUserByID(id)
 	if err != nil {
 		json.NewEncoder(w).Encode(products)
 		return
 	}
 
-	productsWithDiscountApplied := getProductsWithDiscountApplied(customer, products)
+	productsWithDiscountApplied := getProductsWithDiscountApplied(user, products)
 	json.NewEncoder(w).Encode(productsWithDiscountApplied)
 }
 
