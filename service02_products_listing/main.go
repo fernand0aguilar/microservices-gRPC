@@ -28,7 +28,7 @@ func getDiscountConnection(host string) (*grpc.ClientConn, error) {
 }
 
 func findUserByID(id int) (pb.User, error) {
-	c1 := pb.User{Id: "1", FirstName: "John", LastName: "Snow", DateOfBirth: "20021997"}
+	c1 := pb.User{Id: "1", FirstName: "John", LastName: "Snow", DateOfBirth: "23021997"}
 	c2 := pb.User{Id: "2", FirstName: "Daenerys", LastName: "Targaryen", DateOfBirth: "05021997"}
 
 	users := map[int]pb.User{
