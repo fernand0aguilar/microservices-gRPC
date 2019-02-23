@@ -2,7 +2,7 @@ import grpc
 import os, sys
 import time
 from concurrent import futures
-import datetime
+import datetime as dt
 import decimal
 
 import hashtest_pb2
@@ -15,8 +15,8 @@ class Hashtest(hashtest_pb2_grpc.DiscountServicer):
         discount = hashtest_pb2.DiscountValue()
 
         DATE_FORMAT = "%d/%m"
-        BLACK_FRIDAY = datetime.datetime(2019, 11, 25).strftime(DATE_FORMAT)
-        today = datetime.datetime.now().strftime(DATE_FORMAT)
+        BLACK_FRIDAY = dt.datetime(2019, 11, 25).strftime(DATE_FORMAT)
+        today = dt.datetime.now().strftime(DATE_FORMAT)
         user_aniversary = user.date_of_birth.strftime(DATE_FORMAT)
 
         MAX_DISCOUNT = decimal.Decimal(10) / 100    # 10%
@@ -53,14 +53,16 @@ def get_server(host):
     with open('%s/cert.pem' % keys_dir, 'rb') as f:
         certificate_chain = f.read()
 
-    server_credentials = grpc.ssl_server_credentials(((private_key, certificate_chain),))
-    server.add_secure_port(host,server_credentials)
+    if private_key and certificate_chain:
+        server_credentials = grpc.ssl_server_credentials(((private_key, certificate_chain),))
+        server.add_secure_port(host, server_credentials)
+
     hashtest_pb2_grpc.add_DiscountServicer_to_server(Hashtest(), server)
     return server
 
 if __name__ == '__main__':
     port = sys.argv[1] if len(sys.argv) > 1 else 443
-    host = '[::]:%s' % port
+    host = 'localhost:%s' % port
     server = get_server(host)
 
     try:
