@@ -1,7 +1,8 @@
 import grpc
 import os, sys
-import time
 from concurrent import futures
+
+import time
 import datetime as dt
 import decimal
 
@@ -17,7 +18,8 @@ class Hashtest(hashtest_pb2_grpc.DiscountServicer):
         DATE_FORMAT = "%d/%m"
         BLACK_FRIDAY = dt.datetime(2019, 11, 25).strftime(DATE_FORMAT)
         today = dt.datetime.now().strftime(DATE_FORMAT)
-        user_aniversary = user.date_of_birth.strftime(DATE_FORMAT)
+        user_aniversary = request.user.date_of_birth#.strftime(DATE_FORMAT)
+        print("TEST", user_aniversary)
 
         MAX_DISCOUNT = decimal.Decimal(10) / 100    # 10%
         percentual = 0

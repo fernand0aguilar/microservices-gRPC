@@ -19,6 +19,7 @@ import (
 )
 
 func getDiscountConnection(host string) (*grpc.ClientConn, error) {
+	// Dial TLS Connection
 	wd, _ := os.Getwd()
 	parentDir := filepath.Dir(wd)
 	certFile := filepath.Join(parentDir, "keys", "cert.pem")
@@ -27,13 +28,15 @@ func getDiscountConnection(host string) (*grpc.ClientConn, error) {
 }
 
 func findUserByID(id int) (pb.User, error) {
-	c1 := pb.User{Id: "1", FirstName: "John", LastName: "Snow"}
-	c2 := pb.User{Id: "2", FirstName: "Daenerys", LastName: "Targaryen"}
+	c1 := pb.User{Id: "1", FirstName: "John", LastName: "Snow", DateOfBirth: "20021997"}
+	c2 := pb.User{Id: "2", FirstName: "Daenerys", LastName: "Targaryen", DateOfBirth: "05021997"}
+
 	users := map[int]pb.User{
 		1: c1,
 		2: c2,
 	}
 	found, ok := users[id]
+	// TODO -> BUG user returned when id non existent
 	if ok {
 		return found, nil
 	}
@@ -54,6 +57,7 @@ func getProductsWithDiscountApplied(user pb.User, products []*pb.Product) []*pb.
 		host = "localhost:11443"
 	}
 	conn, err := getDiscountConnection(host)
+
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
@@ -111,7 +115,7 @@ func main() {
 	}
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "It is working.")
+		fmt.Fprintf(w, "It is working.\n")
 	})
 	http.HandleFunc("/products", handleGetProducts)
 

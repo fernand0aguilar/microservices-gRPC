@@ -12,7 +12,6 @@ from google.protobuf import symbol_database as _symbol_database
 _sym_db = _symbol_database.Default()
 
 
-from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
@@ -20,9 +19,8 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='hashtest',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x0ehashtest.proto\x12\x08hashtest\x1a\x1fgoogle/protobuf/timestamp.proto\"|\n\x07Product\x12\n\n\x02id\x18\x01 \x01(\t\x12\x16\n\x0eprice_in_cents\x18\x02 \x01(\x05\x12\r\n\x05title\x18\x03 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12)\n\x08\x64iscount\x18\x05 \x01(\x0b\x32\x17.hashtest.DiscountValue\"l\n\x04User\x12\n\n\x02id\x18\x01 \x01(\t\x12\x12\n\nfirst_name\x18\x02 \x01(\t\x12\x11\n\tlast_name\x18\x03 \x01(\t\x12\x31\n\rdate_of_birth\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"4\n\rDiscountValue\x12\x0b\n\x03pct\x18\x01 \x01(\x02\x12\x16\n\x0evalue_in_cents\x18\x02 \x01(\x05\"S\n\x0f\x44iscountRequest\x12\x1c\n\x04user\x18\x01 \x01(\x0b\x32\x0e.hashtest.User\x12\"\n\x07product\x18\x02 \x01(\x0b\x32\x11.hashtest.Product\"6\n\x10\x44iscountResponse\x12\"\n\x07product\x18\x01 \x01(\x0b\x32\x11.hashtest.Product2T\n\x08\x44iscount\x12H\n\rApplyDiscount\x12\x19.hashtest.DiscountRequest\x1a\x1a.hashtest.DiscountResponse\"\x00\x62\x06proto3')
-  ,
-  dependencies=[google_dot_protobuf_dot_timestamp__pb2.DESCRIPTOR,])
+  serialized_pb=_b('\n\x0ehashtest.proto\x12\x08hashtest\"|\n\x07Product\x12\n\n\x02id\x18\x01 \x01(\t\x12\x16\n\x0eprice_in_cents\x18\x02 \x01(\x05\x12\r\n\x05title\x18\x03 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12)\n\x08\x64iscount\x18\x05 \x01(\x0b\x32\x17.hashtest.DiscountValue\"P\n\x04User\x12\n\n\x02id\x18\x01 \x01(\t\x12\x12\n\nfirst_name\x18\x02 \x01(\t\x12\x11\n\tlast_name\x18\x03 \x01(\t\x12\x15\n\rdate_of_birth\x18\x04 \x01(\t\"4\n\rDiscountValue\x12\x0b\n\x03pct\x18\x01 \x01(\x02\x12\x16\n\x0evalue_in_cents\x18\x02 \x01(\x05\"S\n\x0f\x44iscountRequest\x12\x1c\n\x04user\x18\x01 \x01(\x0b\x32\x0e.hashtest.User\x12\"\n\x07product\x18\x02 \x01(\x0b\x32\x11.hashtest.Product\"6\n\x10\x44iscountResponse\x12\"\n\x07product\x18\x01 \x01(\x0b\x32\x11.hashtest.Product2T\n\x08\x44iscount\x12H\n\rApplyDiscount\x12\x19.hashtest.DiscountRequest\x1a\x1a.hashtest.DiscountResponse\"\x00\x62\x06proto3')
+)
 
 
 
@@ -81,8 +79,8 @@ _PRODUCT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=61,
-  serialized_end=185,
+  serialized_start=28,
+  serialized_end=152,
 )
 
 
@@ -116,8 +114,8 @@ _USER = _descriptor.Descriptor(
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='date_of_birth', full_name='hashtest.User.date_of_birth', index=3,
-      number=4, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
@@ -133,8 +131,8 @@ _USER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=187,
-  serialized_end=295,
+  serialized_start=154,
+  serialized_end=234,
 )
 
 
@@ -171,8 +169,8 @@ _DISCOUNTVALUE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=297,
-  serialized_end=349,
+  serialized_start=236,
+  serialized_end=288,
 )
 
 
@@ -209,8 +207,8 @@ _DISCOUNTREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=351,
-  serialized_end=434,
+  serialized_start=290,
+  serialized_end=373,
 )
 
 
@@ -240,12 +238,11 @@ _DISCOUNTRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=436,
-  serialized_end=490,
+  serialized_start=375,
+  serialized_end=429,
 )
 
 _PRODUCT.fields_by_name['discount'].message_type = _DISCOUNTVALUE
-_USER.fields_by_name['date_of_birth'].message_type = google_dot_protobuf_dot_timestamp__pb2._TIMESTAMP
 _DISCOUNTREQUEST.fields_by_name['user'].message_type = _USER
 _DISCOUNTREQUEST.fields_by_name['product'].message_type = _PRODUCT
 _DISCOUNTRESPONSE.fields_by_name['product'].message_type = _PRODUCT
@@ -299,8 +296,8 @@ _DISCOUNT = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=492,
-  serialized_end=576,
+  serialized_start=431,
+  serialized_end=515,
   methods=[
   _descriptor.MethodDescriptor(
     name='ApplyDiscount',

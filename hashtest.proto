@@ -1,5 +1,5 @@
 syntax = "proto3";
-import "google/protobuf/timestamp.proto";
+// import "google/protobuf/timestamp.proto";
 
 package hashtest;
 
@@ -19,7 +19,7 @@ message User {
     string id = 1;
     string first_name = 2;
     string last_name = 3;
-    google.protobuf.Timestamp date_of_birth = 4;
+    string date_of_birth = 4;
 }
 
 message DiscountValue {
