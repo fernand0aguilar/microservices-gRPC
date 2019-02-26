@@ -21,7 +21,7 @@ import (
 func getDiscountConnection(host string) (*grpc.ClientConn, error) {
 	// Dial TLS Connection
 	wd, _ := os.Getwd()
-	parentDir := filepath.Dir(wd)
+	parentDir := filepath.Dir(wd) + "/keys/"
 	certFile := filepath.Join(parentDir, "keys", "cert.pem")
 	creds, _ := credentials.NewClientTLSFromFile(certFile, "")
 	return grpc.Dial(host, grpc.WithTransportCredentials(creds))
@@ -119,6 +119,6 @@ func main() {
 	})
 	http.HandleFunc("/products", handleGetProducts)
 
-	fmt.Println("Server running on", port)
+	fmt.Println("Server is running on", port)
 	http.ListenAndServe(":"+port, nil)
 }

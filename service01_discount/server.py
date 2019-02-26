@@ -1,3 +1,5 @@
+# !/usr/bin/python
+
 import grpc
 import os, sys
 from concurrent import futures
@@ -51,8 +53,8 @@ class Hashtest(hashtest_pb2_grpc.DiscountServicer):
 
 def get_server(host):
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=5))
-    keys_dir = os.path.abspath(os.path.join('.', os.pardir, 'keys'))
-
+    keys_dir = os.path.abspath(os.path.join('keys/', os.pardir, 'keys'))
+    print(keys_dir)
     with open('%s/private.key' % keys_dir, 'rb') as f:
         private_key = f.read()
 
@@ -66,14 +68,14 @@ def get_server(host):
     hashtest_pb2_grpc.add_DiscountServicer_to_server(Hashtest(), server)
     return server
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     port = sys.argv[1] if len(sys.argv) > 1 else 443
     host = 'localhost:%s' % port
     server = get_server(host)
 
     try:
         server.start()
-        print('Running Discount Service on %s' % host)
+        print('The Running Discount Service on port %s' % host)
         while True:
             time.sleep(1)
     except Exception as err:
