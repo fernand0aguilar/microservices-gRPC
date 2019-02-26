@@ -1,7 +1,6 @@
 FROM grpc/python
 ADD . /microservices-grpc
-ADD . /microservices-grpc/service01_discount/server.py
-WORKDIR /microservices-grpc/service01_discount
-RUN pip install --upgrade pip \
+WORKDIR /microservices-grpc
+RUN ls && pip install --upgrade pip \
 && pip install grpcio grpcio-tools
-CMD ["python", "server.py", "11443"]
+CMD ["python", "service01_discount/server.py", "11443"]
