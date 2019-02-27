@@ -21,7 +21,7 @@ import (
 func getDiscountConnection(host string) (*grpc.ClientConn, error) {
 	// Dial TLS Connection
 	wd, _ := os.Getwd()
-	parentDir := filepath.Dir(wd) + "/keys/"
+	parentDir := filepath.Dir(wd)
 	certFile := filepath.Join(parentDir, "keys", "cert.pem")
 	creds, _ := credentials.NewClientTLSFromFile(certFile, "")
 	return grpc.Dial(host, grpc.WithTransportCredentials(creds))
@@ -36,7 +36,6 @@ func findUserByID(id int) (pb.User, error) {
 		2: c2,
 	}
 	found, ok := users[id]
-	// TODO -> BUG user returned when id non existent
 	if ok {
 		return found, nil
 	}
@@ -118,7 +117,7 @@ func main() {
 		fmt.Fprintf(w, "It is working.\n")
 	})
 	http.HandleFunc("/products", handleGetProducts)
-
+	
 	fmt.Println("Server is running on", port)
 	http.ListenAndServe(":"+port, nil)
 }

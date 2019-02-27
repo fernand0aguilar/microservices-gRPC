@@ -53,8 +53,8 @@ class Hashtest(hashtest_pb2_grpc.DiscountServicer):
 
 def get_server(host):
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=5))
-    keys_dir = os.path.abspath(os.path.join('keys/', os.pardir, 'keys'))
-    print(keys_dir)
+    keys_dir = os.path.abspath(os.path.join('.', os.pardir, 'keys'))
+    
     with open('%s/private.key' % keys_dir, 'rb') as f:
         private_key = f.read()
 
@@ -72,6 +72,9 @@ if __name__ == "__main__":
     port = sys.argv[1] if len(sys.argv) > 1 else 443
     host = 'localhost:%s' % port
     server = get_server(host)
+    
+    print("Connected to server: ", server)
+    print("Host: ", host)
 
     try:
         server.start()
