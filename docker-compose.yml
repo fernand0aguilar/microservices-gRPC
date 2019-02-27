@@ -3,13 +3,13 @@ services:
   discount:
     build:
       context: .
-      dockerfile: service01_discount/Dockerfile
+      dockerfile: discount.Dockerfile
     ports:
       - 11443:11443
   products_listing:
     build:
       context: .
-      dockerfile: service02_products_listing/Dockerfile
+      dockerfile: products_listing.Dockerfile
     environment:
       - DISCOUNT_SERVICE_HOST=discount:11443
     links: 

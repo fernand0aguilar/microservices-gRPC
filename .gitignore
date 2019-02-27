@@ -1,7 +1,10 @@
-node_modules/
-.env
-venv
-package-lock.json/
 .vscode/
+
+venv
 __pycache__/
 *.pyc
+
+# Generated files
+service02_products_listing/hashtest/
+service01_discount/hashtest_pb2_grpc.py
+service01_discount/hashtest_pb2.py
