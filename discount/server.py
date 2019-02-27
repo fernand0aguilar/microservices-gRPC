@@ -61,16 +61,15 @@ def get_server(host):
     with open('%s/cert.pem' % keys_dir, 'rb') as f:
         certificate_chain = f.read()
 
-    if private_key and certificate_chain:
-        server_credentials = grpc.ssl_server_credentials(((private_key, certificate_chain),))
-        server.add_secure_port(host, server_credentials)
-
+    server_credentials = grpc.ssl_server_credentials(((private_key, certificate_chain),))
+    server.add_secure_port(host, server_credentials)
     hashtest_pb2_grpc.add_DiscountServicer_to_server(Hashtest(), server)
+    
     return server
 
 if __name__ == "__main__":
     port = sys.argv[1] if len(sys.argv) > 1 else 443
-    host = 'localhost:%s' % port
+    host = '[::]:%s' % port
     server = get_server(host)
     
     print("Connected to server: ", server)

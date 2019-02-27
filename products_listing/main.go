@@ -15,7 +15,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 
-	pb "microservices-grpc/service02_products_listing/hashtest"
+	pb "microservices-grpc/products_listing/hashtest"
 )
 
 func getDiscountConnection(host string) (*grpc.ClientConn, error) {
@@ -52,7 +52,6 @@ func getFakeProducts() []*pb.Product {
 func getProductsWithDiscountApplied(user pb.User, products []*pb.Product) []*pb.Product {
 	host := os.Getenv("DISCOUNT_SERVICE_HOST")
 	if len(host) == 0 {
-		log.Println("connected 11443")
 		host = "localhost:11443"
 	}
 	conn, err := getDiscountConnection(host)
