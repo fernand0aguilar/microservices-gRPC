@@ -5,6 +5,9 @@ __pycache__/
 *.pyc
 
 # Generated files
-service02_products_listing/hashtest/
-service01_discount/hashtest_pb2_grpc.py
-service01_discount/hashtest_pb2.py
+products_listing/hashtest/
+discount/hashtest_pb2_grpc.py
+discount/hashtest_pb2.py
+
+keys/cert.pem
+keys/private.key

@@ -72,9 +72,6 @@ if __name__ == "__main__":
     host = '[::]:%s' % port
     server = get_server(host)
     
-    print("Connected to server: ", server)
-    print("Host: ", host)
-
     try:
         server.start()
         print('The Running Discount Service on port %s' % host)
