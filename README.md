@@ -70,5 +70,4 @@ openssl req -x509 -newkey rsa:4096 -keyout keys/private.key -out keys/cert.pem -
 
 ***
 Credits:
-* [Github - microservices-grpc-go-python](https://github.com/gustavohenrique/microservices-grpc-go-python)
-* [Website - gustavohenrique.com](https://gustavohenrique.com/)
+* [Gustavo Henrique](https://gustavohenrique.com/2018/11/building-microservices-in-go-and-python-using-grpc-and-tls-ssl-authentication/)
