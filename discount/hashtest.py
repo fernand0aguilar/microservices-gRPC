@@ -1,6 +1,5 @@
 import sys
 
-import time
 from datetime import datetime
 import decimal
 
@@ -35,7 +34,7 @@ class Hashtest(hashtest_pb2_grpc.DiscountServicer):
     def calculate_percentual(self, user_aniversary):
         percentual = 0
         DATE_FORMAT = "%d/%m"
-        
+
         today = datetime.now().strftime(DATE_FORMAT)
         BLACK_FRIDAY = datetime(2019, 11, 25).strftime(DATE_FORMAT)
         user_aniversary_formated = user_aniversary.strftime(DATE_FORMAT)

@@ -12,11 +12,10 @@ def get_server(host):
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=5))
     keys_dir = os.path.abspath(os.path.join('.', os.pardir, 'keys'))
     
-    with open('%s/private.key' % keys_dir, 'rb') as f:
-        private_key = f.read()
-
-    with open('%s/cert.pem' % keys_dir, 'rb') as f:
-        certificate_chain = f.read()
+    with open('%s/private.key' % keys_dir, 'rb') as file:
+        private_key = file.read()
+    with open('%s/cert.pem' % keys_dir, 'rb') as file:
+        certificate_chain = file.read()
 
     server_credentials = grpc.ssl_server_credentials(((private_key, certificate_chain),))
     server.add_secure_port(host, server_credentials)
@@ -31,7 +30,7 @@ if __name__ == "__main__":
     
     try:
         server.start()
-        print('The Running Discount Service on port %s' % host)
+        print('Running The Discount Server on port %s' % host)
         while True:
             time.sleep(1)
     except Exception as err:

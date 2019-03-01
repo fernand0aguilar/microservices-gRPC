@@ -9,13 +9,12 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"strconv"
 	"time"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 
-	pb "microservices-grpc/products_listing/hashtest"
+	protobuf "microservices-grpc/products_listing/hashtest"
 )
 
 func getDiscountConnection(host string) (*grpc.ClientConn, error) {
@@ -27,29 +26,48 @@ func getDiscountConnection(host string) (*grpc.ClientConn, error) {
 	return grpc.Dial(host, grpc.WithTransportCredentials(creds))
 }
 
-func findUserByID(id int) (pb.User, error) {
-	c1 := pb.User{Id: "1", FirstName: "John", LastName: "Snow", DateOfBirth: "23021997"}
-	c2 := pb.User{Id: "2", FirstName: "Daenerys", LastName: "Targaryen", DateOfBirth: "05021997"}
+func findUserByID(id string) (protobuf.User, error) {
+	user1 := protobuf.User{
+		Id: "1", 
+		FirstName: "John", 
+		LastName: "Snow", 
+		DateOfBirth: "23021997",
+	}
+	user2 := protobuf.User{
+		Id: "2", 
+		FirstName: "Daenerys", 
+		LastName: "Targaryen",
+		DateOfBirth: "05021997",
+	}
 
-	users := map[int]pb.User{
-		1: c1,
-		2: c2,
+	users := map[string]protobuf.User{
+		"1": user1,
+		"2": user2,
 	}
 	found, ok := users[id]
+	
 	if ok {
+		// log.Println("FOUND user with id + " + id)
 		return found, nil
 	}
 	return found, errors.New("User not found.")
 }
 
-func getFakeProducts() []*pb.Product {
-	p1 := pb.Product{Id: "1", PriceInCents: 99999, Title: "iphone-x", Description: "64GB, black and iOS 12"}
-	p2 := pb.Product{Id: "2", PriceInCents: 150000, Title: "notebook-avell-g1511", Description: "Notebook Gamer Intel Core i7"}
-	p3 := pb.Product{Id: "3", PriceInCents: 32999, Title: "playstation-4-slim", Description: "1TB Console"}
-	return []*pb.Product{&p1, &p2, &p3}
+func getFakeProducts() []*protobuf.Product {
+	p1 := protobuf.Product{Id: "1", PriceInCents: 99999, 
+		Title: "iphone-x", 
+		Description: "64GB, black and iOS 12"}
+	p2 := protobuf.Product{Id: "2", PriceInCents: 150000, 
+		Title: "notebook-avell-g1511",
+		Description: "Notebook Gamer Intel Core i7"}
+	p3 := protobuf.Product{Id: "3", PriceInCents: 32999, 
+		Title: "playstation-4-slim", 
+		Description: "1TB Console"}
+	
+	return []*protobuf.Product{&p1, &p2, &p3}
 }
 
-func getProductsWithDiscountApplied(user pb.User, products []*pb.Product) []*pb.Product {
+func getProductsWithDiscountApplied(user protobuf.User, products []*protobuf.Product) []*protobuf.Product {
 	host := os.Getenv("DISCOUNT_SERVICE_HOST")
 	if len(host) == 0 {
 		host = "localhost:11443"
@@ -61,13 +79,13 @@ func getProductsWithDiscountApplied(user pb.User, products []*pb.Product) []*pb.
 	}
 	defer conn.Close()
 
-	c := pb.NewDiscountClient(conn)
+	client := protobuf.NewDiscountClient(conn)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
 	defer cancel()
 
-	productsWithDiscountApplied := make([]*pb.Product, 0)
+	productsWithDiscountApplied := make([]*protobuf.Product, 0)
 	for _, product := range products {
-		r, err := c.ApplyDiscount(ctx, &pb.DiscountRequest{User: &user, Product: product})
+		r, err := client.ApplyDiscount(ctx, &protobuf.DiscountRequest{User: &user, Product: product})
 		if err == nil {
 			productsWithDiscountApplied = append(productsWithDiscountApplied, r.GetProduct())
 		} else {
@@ -90,14 +108,11 @@ func handleGetProducts(w http.ResponseWriter, req *http.Request) {
 		json.NewEncoder(w).Encode(products)
 		return
 	}
-	id, err := strconv.Atoi(userID)
-	if err != nil {
-		http.Error(w, "User ID is not a number.", http.StatusBadRequest)
-		return
-	}
+	log.Println("userID: "+ userID)
 
-	user, err := findUserByID(id)
+	user, err := findUserByID(userID)
 	if err != nil {
+		log.Println("error: ", err )
 		json.NewEncoder(w).Encode(products)
 		return
 	}
@@ -111,12 +126,7 @@ func main() {
 	if len(os.Args) > 1 {
 		port = os.Args[1]
 	}
-
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "It is working.\n")
-	})
-	http.HandleFunc("/products", handleGetProducts)
-	
 	fmt.Println("Server is running on", port)
-	http.ListenAndServe(":"+port, nil)
+	http.HandleFunc("/products", handleGetProducts)	
+	http.ListenAndServe(":" + port, nil)
 }
