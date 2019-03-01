@@ -5,27 +5,46 @@ The first service, **DISCOUNT** is written in python and applies discounts to th
 
 The second service, **PRODUCTS LISTING** is written in go and returns a list of products exposed on a REST API. We can pass in the /products route an user-id, this will call the discount service and authenticate via tcp ssl. Header example: _X-USER-ID: 1_
 
-## How to:
-### **Run via docker:**
-```
-clone the repo
-cd microservices-grpc
-./generate_keys.sh
-docker-compose up -d
-```
-the default ports are 11080 and 11443. You can test the system by the following command:
+#
+
+# How to:
+
+## Test if it's working:
+Run both services.
+The default ports are 11080 and 11443. 
+
+You can test the system with the following command:
+
 ```curl -H 'X-USER-ID: 1' http://localhost:11080/products```
 
 
-### **Run locally:**
+***
+
+## **Run via docker:**
+Requires:
+* docker
+* docker-compose
+
+To run both services in detach mode:
+```
+clone the repo
+cd microservices-grpc
+docker-compose up -d
+```
+Generate the private keys for discount server if needed
+```
+openssl req -x509 -newkey rsa:4096 -keyout keys/private.key -out keys/cert.pem -days 365 -nodes -subj '/CN=discount'
+```
+
+## **Run locally:**
 
 Requires:
 * Go
 * Python
 
-To run **DISCOUNT** service:
+To run **DISCOUNT** Python service:
 
-Setup the environment:
+Setup the environment
 ```
 pip install virtualenv
 virtualenv venv
@@ -36,15 +55,18 @@ pip install --upgrade pip \
 Run the discount server:
 ```python server.py 11443```
 
-To run **PRODUCTS LISTING** service:
+To run **PRODUCTS LISTING** Go service:
 ```
 cd products_listing
+go get -u google.golang.org/grpc
+go get -u github.com/golang/protobuf/proto
 go run main.go
 ```
-The ports are also 11080 and 11443. 
-You can test with the same curl command:
+Generate the private keys for localhost if needed
+```
+openssl req -x509 -newkey rsa:4096 -keyout keys/private.key -out keys/cert.pem -days 365 -nodes -subj '/CN=localhost'
+```
 
-```curl -H 'X-USER-ID: 1' http://localhost:11080/products```
 
 ***
 Credits:
