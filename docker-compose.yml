@@ -1,20 +1,21 @@
 version: '3'
 services:
+  products_listing:
+    build: ./products_listing
+    container_name: products_lisiting
+    hostname: products_listing
+    ports:
+      - "11080:11080"
+    expose:
+      - "11080"
+    environment:
+      - PORT=11080
+      - DISCOUNT_SERVICE_HOST=discount:11443
   discount:
     build:
-      context: .
-      dockerfile: discount.Dockerfile
+      context: products_listing
+      dockerfile: "discount/Dockerfile"
     ports:
-      - 11443:11443
-  products_listing:
-    build:
-      context: .
-      dockerfile: products_listing.Dockerfile
-    environment:
-      - DISCOUNT_SERVICE_HOST=discount:11443
-    links: 
-      - discount:discount
-    depends_on:
-      - discount
-    ports:
-      - 11080:11080
+      - "11443:11443"
+    expose:
+      - "11443"

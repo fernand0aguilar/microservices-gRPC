@@ -1,7 +1,8 @@
 FROM grpc/python
+LABEL author="Fernando Aguilar <fernando.aguilar@hotmail.com.br>"
 
-ADD . /microservices-grpc
-WORKDIR /microservices-grpc/discount
+COPY . /app
+WORKDIR /app
 
 RUN pip install --upgrade pip \
 && pip install grpcio grpcio-tools

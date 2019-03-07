@@ -14,7 +14,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 
-	protobuf "microservices-grpc/products_listing/hashtest"
+	protobuf "github.com/fernand0aguilar/microservices-grpc/products_listing/hashtest"
 )
 
 func main() {
